@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Complete Your Free Membership | We Amor</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         body { font-family: Arial, sans-serif; background-color: #fdeff2; text-align: center; }
         .container { 
@@ -61,10 +60,10 @@
         const country = urlParams.get("country") || "";
 
         // ✅ Show User's Name
-        document.getElementById("userName").innerText = name;
+        document.getElementById("userName").textContent = name;
 
         // ✅ Telegram Share Button Logic
-        document.getElementById("shareButton").addEventListener("click", function() {
+        document.getElementById("shareButton").addEventListener("click", () => {
             const message = `🚀 Exclusive Offer for Telegram Users! 🚀
 
 We Amor is giving 1 YEAR of FREE Premium to all our Telegram users! 🎉 Unlock exclusive features and take your dating experience to the next level—absolutely free!
@@ -73,21 +72,29 @@ We Amor is giving 1 YEAR of FREE Premium to all our Telegram users! 🎉 Unlock 
 ⏳ Offer valid until April 10, 2025 – Don’t miss out!
 
 #WeAmor #FreePremium #LimitedTimeOffer`;
+
             const telegramUrl = `https://t.me/share/url?url=https://t.me/weamorfreepremiumbot/oneyearfree&text=${encodeURIComponent(message)}`;
-            window.open(telegramUrl, "_blank");
+            
+            // ✅ Use "setTimeout" to avoid freeze issues in old browsers
+            setTimeout(() => {
+                window.open(telegramUrl, "_blank");
+            }, 100);
 
             hasShared = true;  // ✅ Mark that the user has shared
             document.getElementById("errorMessage").style.display = "none"; // ✅ Hide error message if it was shown
         });
 
         // ✅ Claim Membership Button Logic
-        document.getElementById("claimButton").addEventListener("click", function() {
+        document.getElementById("claimButton").addEventListener("click", () => {
             if (!hasShared) {
                 document.getElementById("errorMessage").style.display = "block"; // ✅ Show error if not shared
-            } else {
-                // ✅ Redirect to Page 3 with form data
-                window.location.href = `page3.html?name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&country=${encodeURIComponent(country)}`;
+                return;
             }
+
+            // ✅ Redirect to Page 3 with form data (Avoid Freeze with setTimeout)
+            setTimeout(() => {
+                window.location.href = `page3.html?name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&country=${encodeURIComponent(country)}`;
+            }, 100);
         });
     </script>
 
