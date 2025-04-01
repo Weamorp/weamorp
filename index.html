@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claim Free Membership | We Amor</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #fdeff2; text-align: center; }
+        .container { 
+            max-width: 450px; 
+            margin: 50px auto; 
+            background: white; 
+            padding: 25px; 
+            border-radius: 10px; 
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+            position: relative;
+        }
+        .logo { width: 120px; margin-bottom: 15px; }
+        h2 { color: #d63384; font-size: 22px; margin-top: 5px; }
+        p { font-size: 16px; color: #333; }
+        form { margin-top: 15px; }
+        input, select, button { 
+            width: 100%; 
+            padding: 10px; 
+            margin: 8px 0; 
+            border: 1px solid #ccc; 
+            border-radius: 5px; 
+            font-size: 16px; 
+        }
+        select { appearance: none; }
+        button { 
+            background: #d63384; 
+            color: white; 
+            font-size: 18px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            border: none; 
+        }
+        button:hover { background: #b52d6e; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <img src="logo.png" alt="We Amor Logo" class="logo">  <!-- ✅ Add Your Logo Here -->
+        <h2>🎉 1 Year FREE Premium Membership! 🎉</h2>
+        <p>We Amor is giving all Telegram users <b>1 year of free premium membership!</b> ❤️</p>
+        <p>🔥 <b>Offer valid till April 15!</b> Fill out the form below to claim your free membership.</p>
+
+        <form id="userForm">
+            <input type="text" id="name" placeholder="Enter your name" required>
+            <input type="email" id="email" placeholder="Enter your email" required>
+            <select id="country" required>
+                <option value="">Select your country</option>
+            </select>
+            <button type="submit">Claim Free Membership</button>
+        </form>
+    </div>
+
+    <script type="module">
+        // ✅ Import Firebase SDKs
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-app.js";
+        import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-database.js";
+
+        // ✅ Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyC7MFMwrs-0vr-YONifdXMilZ6GsVzmJ8M",
+            authDomain: "we-amor-marketing.firebaseapp.com",
+            databaseURL: "https://we-amor-marketing-default-rtdb.firebaseio.com",
+            projectId: "we-amor-marketing",
+            storageBucket: "we-amor-marketing.appspot.com",
+            messagingSenderId: "118887009581",
+            appId: "1:118887009581:web:b49970430ef0da498a57a4",
+            measurementId: "G-TH9B4XD1YF"
+        };
+
+        // ✅ Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // ✅ Form Submission Logic
+        document.getElementById("userForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            // Get form values
+            const name = document.getElementById("name").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const country = document.getElementById("country").value;
+
+            // Validation
+            if (!name || !email || !country) {
+                alert("All fields are required!");
+                return;
+            }
+
+            // ✅ Save to Firebase Database
+            const usersRef = ref(database, "users");
+            const newUserRef = push(usersRef);
+            set(newUserRef, { name, email, country })
+            .then(() => {
+                // ✅ Redirect with form data
+                window.location.href = `page2.html?name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&country=${encodeURIComponent(country)}`;
+            })
+            .catch(error => {
+                alert("Error: " + error.message);
+            });
+        });
+
+        // ✅ Populate Country List
+        const countries = ["India", "United States", "Canada", "United Kingdom", "Australia", "Germany", "France", "Spain", "Italy", "Brazil"];
+        countries.forEach(country => {
+            $("#country").append(new Option(country, country));
+        });
+
+        // ✅ Enhance Dropdown UI
+        $("#country").select2({ placeholder: "Select your country", allowClear: true });
+    </script>
+
+</body>
+</html>
