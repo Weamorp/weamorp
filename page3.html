@@ -77,12 +77,14 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+            console.log("Page loaded, executing script...");
+
             // ✅ Get User Data from URL
             const urlParams = new URLSearchParams(window.location.search);
             const name = urlParams.get("name") || "User";
             const email = urlParams.get("email") || "";
 
-            // ✅ Display User's Name & Email (Using textContent for performance)
+            // ✅ Display User's Name & Email
             document.getElementById("userName").textContent = name;
             document.getElementById("userEmail").textContent = email;
 
@@ -91,31 +93,35 @@
                 const playStoreLink = "https://play.google.com/store/apps/details?id=app.weamor";
                 const appStoreLink = "https://apps.apple.com/in/app/we-amor/id6469098495";
 
-                if (window.matchMedia("(pointer: coarse)").matches) { // Mobile or tablet
-                    if (/android/i.test(navigator.userAgent)) {
-                        return playStoreLink;
-                    } else {
-                        return appStoreLink;
-                    }
+                if (/android/i.test(navigator.userAgent)) {
+                    return playStoreLink;
+                } else if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+                    return appStoreLink;
                 }
-                return playStoreLink; // Default for unknown devices
+                return playStoreLink; // Default to Play Store for unknown devices
             }
 
-            // ✅ Set the Download Button Link with a Delay to Avoid Freezing
-            setTimeout(() => {
-                document.getElementById("downloadButton").setAttribute("href", getAppStoreLink());
-            }, 100);
-        });
+            const downloadButton = document.getElementById("downloadButton");
 
-        // ✅ Handle Button Click to Prevent Freezing
-        document.getElementById("downloadButton").addEventListener("click", function (event) {
-            event.preventDefault();
-            const downloadLink = this.getAttribute("href");
+            // ✅ Ensure button exists before setting attributes
+            if (downloadButton) {
+                const appLink = getAppStoreLink();
+                console.log("Setting download button link to:", appLink);
+                downloadButton.setAttribute("href", appLink);
 
-            // ✅ Delay the redirect slightly to prevent browser hang
-            setTimeout(() => {
-                window.location.href = downloadLink;
-            }, 150);
+                // ✅ Handle Button Click
+                downloadButton.addEventListener("click", function (event) {
+                    event.preventDefault(); // Prevent default behavior
+                    console.log("Download button clicked, redirecting to:", appLink);
+
+                    // ✅ Redirect to the correct store after a short delay
+                    setTimeout(() => {
+                        window.location.href = appLink;
+                    }, 200);
+                });
+            } else {
+                console.error("Download button not found!");
+            }
         });
     </script>
 
