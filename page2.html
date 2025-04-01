@@ -65,8 +65,15 @@
 
         // ✅ Telegram Share Button Logic
         document.getElementById("shareButton").addEventListener("click", function() {
-            const message = `🎉 Hey! I'm getting 1 year of FREE premium membership on We Amor! 🎁 You can also claim yours here: https://yourwebsite.com 🎉`;
-            const telegramUrl = `https://t.me/share/url?url=https://yourwebsite.com&text=${encodeURIComponent(message)}`;
+            const message = `🚀 Exclusive Offer for Telegram Users! 🚀
+
+We Amor is giving 1 YEAR of FREE Premium to all our Telegram users! 🎉 Unlock exclusive features and take your dating experience to the next level—absolutely free!
+
+🔥 Claim now: https://t.me/weamorfreepremiumbot/oneyearfree 
+⏳ Offer valid until April 10, 2025 – Don’t miss out!
+
+#WeAmor #FreePremium #LimitedTimeOffer`;
+            const telegramUrl = `https://t.me/share/url?url=https://t.me/weamorfreepremiumbot/oneyearfree&text=${encodeURIComponent(message)}`;
             window.open(telegramUrl, "_blank");
 
             hasShared = true;  // ✅ Mark that the user has shared
