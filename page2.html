@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Your Free Membership | We Amor</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #fdeff2; text-align: center; }
+        .container { 
+            max-width: 450px; 
+            margin: 50px auto; 
+            background: white; 
+            padding: 25px; 
+            border-radius: 10px; 
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+        }
+        .logo { width: 120px; margin-bottom: 15px; }
+        h2 { color: #d63384; font-size: 22px; }
+        p { font-size: 16px; color: #333; margin-bottom: 15px; }
+        button { 
+            background: #d63384; 
+            color: white; 
+            font-size: 16px; 
+            font-weight: bold; 
+            padding: 12px; 
+            width: 100%; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            margin: 10px 0;
+        }
+        button:hover { background: #b52d6e; }
+        .error { color: red; font-size: 14px; display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <img src="logo.png" alt="We Amor Logo" class="logo">  <!-- ✅ Add Your Logo Here -->
+        <h2>🎉 Congratulations, <span id="userName"></span>! 🎉</h2>
+        <p>You are just one step away from getting your <b>1 year free premium membership!</b></p>
+        <p>Tell about this offer to <b>5 friends on Telegram</b> and get your free premium membership.</p>
+
+        <!-- ✅ Telegram Share Button -->
+        <button id="shareButton">📩 Share on Telegram</button>
+
+        <!-- ✅ Claim Membership Button -->
+        <button id="claimButton">🎁 Claim Membership</button>
+
+        <p class="error" id="errorMessage">⚠️ You must share this offer on Telegram before claiming!</p>
+    </div>
+
+    <script>
+        let hasShared = false;  // ✅ Track if the user has shared
+
+        // ✅ Get User Data from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const name = urlParams.get("name") || "User";
+        const email = urlParams.get("email") || "";
+        const country = urlParams.get("country") || "";
+
+        // ✅ Show User's Name
+        document.getElementById("userName").innerText = name;
+
+        // ✅ Telegram Share Button Logic
+        document.getElementById("shareButton").addEventListener("click", function() {
+            const message = `🎉 Hey! I'm getting 1 year of FREE premium membership on We Amor! 🎁 You can also claim yours here: https://yourwebsite.com 🎉`;
+            const telegramUrl = `https://t.me/share/url?url=https://yourwebsite.com&text=${encodeURIComponent(message)}`;
+            window.open(telegramUrl, "_blank");
+
+            hasShared = true;  // ✅ Mark that the user has shared
+            document.getElementById("errorMessage").style.display = "none"; // ✅ Hide error message if it was shown
+        });
+
+        // ✅ Claim Membership Button Logic
+        document.getElementById("claimButton").addEventListener("click", function() {
+            if (!hasShared) {
+                document.getElementById("errorMessage").style.display = "block"; // ✅ Show error if not shared
+            } else {
+                // ✅ Redirect to Page 3 with form data
+                window.location.href = `page3.html?name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&country=${encodeURIComponent(country)}`;
+            }
+        });
+    </script>
+
+</body>
+</html>
