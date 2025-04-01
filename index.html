@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Claim Free Membership | We Amor</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
     <style>
         body { font-family: Arial, sans-serif; background-color: #fdeff2; text-align: center; }
         .container { 
@@ -30,7 +27,6 @@
             border-radius: 5px; 
             font-size: 16px; 
         }
-        select { appearance: none; }
         button { 
             background: #d63384; 
             color: white; 
@@ -108,32 +104,24 @@
                 alert("Error: " + error.message);
             });
         });
+    </script>
 
-        // ✅ Populate Country List with All Countries
-        const allCountries = [
-            "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria", 
-            "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan", 
-            "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Burundi", "Cabo Verde", "Cambodia", 
-            "Cameroon", "Canada", "Central African Republic", "Chad", "Chile", "China", "Colombia", "Comoros", "Congo (Congo-Brazzaville)", "Costa Rica", 
-            "Croatia", "Cuba", "Cyprus", "Czechia (Czech Republic)", "Democratic Republic of the Congo", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador", 
-            "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Eswatini", "Ethiopia", "Fiji", "Finland", "France", 
-            "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Greece", "Grenada", "Guatemala", "Guinea", "Guinea-Bissau", 
-            "Guyana", "Haiti", "Honduras", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", 
-            "Israel", "Italy", "Jamaica", "Japan", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Kuwait", "Kyrgyzstan", 
-            "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Madagascar", 
-            "Malaysia", "Maldives", "Mali", "Malta", "Mexico", "Monaco", "Mongolia", "Morocco", "Myanmar", "Namibia", 
-            "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Nigeria", "Norway", "Pakistan", "Palestine", "Panama", "Peru", 
-            "Philippines", "Poland", "Portugal", "Qatar", "Romania", "Russia", "Rwanda", "Saudi Arabia", "Senegal", "Serbia", 
-            "Singapore", "South Africa", "South Korea", "Spain", "Sri Lanka", "Sweden", "Switzerland", "Thailand", "Turkey", "Ukraine", 
-            "United Arab Emirates", "United Kingdom", "United States", "Uruguay", "Vietnam", "Yemen", "Zambia", "Zimbabwe"
-        ];
-
-        allCountries.forEach(country => {
-            $("#country").append(new Option(country, country));
+    <script>
+        // ✅ Load Countries Only When User Clicks on the Dropdown
+        document.getElementById("country").addEventListener("focus", function () {
+            if (this.options.length === 1) { // Load only if not loaded
+                const allCountries = [
+                    "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Argentina", "Australia", "Austria", 
+                    "Bangladesh", "Belgium", "Brazil", "Canada", "China", "France", "Germany", "India", "Italy", "Japan", 
+                    "United Kingdom", "United States", "Mexico", "South Africa", "Singapore", "Spain", "Sri Lanka", 
+                    "Sweden", "Switzerland", "Thailand", "Turkey", "UAE", "Ukraine", "Vietnam", "Zimbabwe"
+                ];
+                
+                allCountries.forEach(country => {
+                    this.add(new Option(country, country));
+                });
+            }
         });
-
-        // ✅ Enhance Dropdown UI
-        $("#country").select2({ placeholder: "Select your country", allowClear: true });
     </script>
 
 </body>
