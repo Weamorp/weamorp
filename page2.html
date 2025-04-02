@@ -3,21 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Complete Your Free Membership 1| We Amor</title>
+    <title>Complete Your Free Membership | We Amor</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #fdeff2; text-align: center; overflow-y: auto !important; /* Force scrolling */ }
+        /* ✅ Ensure scrolling always works */
+        html, body {
+            height: 100%;
+            overflow-y: auto !important; /* Force scrolling */
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling for iOS */
+            margin: 0;
+            padding: 0;
+        }
+
         .container { 
             max-width: 450px; 
             margin: 50px auto; 
             background: white; 
             padding: 25px; 
             border-radius: 10px; 
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
-            
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative; /* Ensures no layout issues */
         }
+
         .logo { width: 120px; margin-bottom: 15px; }
         h2 { color: #d63384; font-size: 22px; }
         p { font-size: 16px; color: #333; margin-bottom: 15px; }
+
         button { 
             background: #d63384; 
             color: white; 
@@ -29,9 +39,16 @@
             border-radius: 5px; 
             cursor: pointer; 
             margin: 10px 0;
+            transition: background 0.3s ease;
         }
         button:hover { background: #b52d6e; }
-        .error { color: red; font-size: 14px; display: none; }
+        
+        .error { 
+            color: red; 
+            font-size: 14px; 
+            display: none;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -39,7 +56,7 @@
     <div class="container">
         <img src="logo.png" alt="We Amor Logo" class="logo">  <!-- ✅ Add Your Logo Here -->
         <h2>🎉 Congratulations, <span id="userName"></span>! 🎉</h2>
-        <p>You are just one step away from getting your <b>10 year free premium membership!</b></p>
+        <p>You are just one step away from getting your <b>1-year free premium membership!</b></p>
         <p>Tell about this offer to <b>5 friends on Telegram</b> and get your free premium membership.</p>
 
         <!-- ✅ Telegram Share Button -->
@@ -63,39 +80,45 @@
         // ✅ Show User's Name
         document.getElementById("userName").textContent = name;
 
-        // ✅ Telegram Share Button Logic
-        document.getElementById("shareButton").addEventListener("click", () => {
-            const message = `🚀 Exclusive Offer for Telegram Users! 🚀
+        // ✅ Telegram Share Button Logic (Fixed to Avoid Freezes)
+        document.getElementById("shareButton").addEventListener("click", (event) => {
+            event.preventDefault(); // Prevent accidental issues
 
-We Amor is giving 1 YEAR of FREE Premium to all our Telegram users! 🎉 Unlock exclusive features and take your dating experience to the next level—absolutely free!
+            const message = `🚀 Exclusive Offer for Telegram Users! 🚀
+            
+We Amor is giving 1 YEAR of FREE Premium to all our Telegram users! 🎉
 
 🔥 Claim now: https://t.me/weamorfreepremiumbot/oneyearfree 
-⏳ Offer valid until April 10, 2025 – Don’t miss out!
-
-#WeAmor #FreePremium #LimitedTimeOffer`;
+⏳ Offer valid until April 10, 2025 – Don’t miss out!`;
 
             const telegramUrl = `https://t.me/share/url?url=https://t.me/weamorfreepremiumbot/oneyearfree&text=${encodeURIComponent(message)}`;
-            
-            // ✅ Use "setTimeout" to avoid freeze issues in old browsers
-            setTimeout(() => {
-                window.open(telegramUrl, "_blank");
-            }, 100);
 
-            hasShared = true;  // ✅ Mark that the user has shared
-            document.getElementById("errorMessage").style.display = "none"; // ✅ Hide error message if it was shown
+            // ✅ Open Telegram in a new tab without blocking the UI
+            setTimeout(() => {
+                window.open(telegramUrl, "_blank", "noopener,noreferrer");
+            }, 200);
+
+            hasShared = true;
+            document.getElementById("errorMessage").style.display = "none"; 
         });
 
-        // ✅ Claim Membership Button Logic
-        document.getElementById("claimButton").addEventListener("click", () => {
+        // ✅ Claim Membership Button Logic (Fixed for Smooth Redirect)
+        document.getElementById("claimButton").addEventListener("click", (event) => {
+            event.preventDefault();
+
             if (!hasShared) {
-                document.getElementById("errorMessage").style.display = "block"; // ✅ Show error if not shared
+                document.getElementById("errorMessage").style.display = "block"; 
                 return;
             }
 
-            // ✅ Redirect to Page 3 with form data (Avoid Freeze with setTimeout)
+            // ✅ Add a fade-out effect to avoid browser hang
+            document.body.style.opacity = "0.5";
+            document.body.style.pointerEvents = "none"; // Disable clicks during transition
+
+            // ✅ Redirect smoothly
             setTimeout(() => {
                 window.location.href = `page3.html?name=${encodeURIComponent(name)}&email=${encodeURIComponent(email)}&country=${encodeURIComponent(country)}`;
-            }, 100);
+            }, 500);
         });
     </script>
 
